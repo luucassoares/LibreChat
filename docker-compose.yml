@@ -26,15 +26,15 @@ services:
       - type: bind
         source: ./.env
         target: /app/.env
-      - ./images:/app/client/public/images
-      - ./logs:/app/api/logs
+      - /home/pi/LibreChat/data_ext/images:/app/client/public/images
+      - /home/pi/LibreChat/data_ext/logs:/app/api/logs
   mongodb:
     container_name: chat-mongodb
     image: mongo
     restart: always
     user: "${UID}:${GID}"
     volumes:
-      - ./data-node:/data/db
+      - /home/pi/LibreChat/data_ext/data-node:/data/db
     command: mongod --noauth
   meilisearch:
     container_name: chat-meilisearch
@@ -45,7 +45,7 @@ services:
       - MEILI_HOST=http://meilisearch:7700
       - MEILI_NO_ANALYTICS=true
     volumes:
-      - ./meili_data_v1.7:/meili_data
+      -  /home/pi/LibreChat/data_ext/meili_data_v1.7:/meili_data
   vectordb:
     container_name: vectordb
     image: ankane/pgvector:latest
@@ -55,7 +55,7 @@ services:
       POSTGRES_PASSWORD: mypassword
     restart: always
     volumes:
-      - pgdata2:/var/lib/postgresql/data
+      - /home/pi/LibreChat/data_ext/pgdata2:/var/lib/postgresql/data
   rag_api:
     container_name: rag_api
     image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
